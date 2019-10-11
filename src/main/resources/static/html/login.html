@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+   <input type="text" placeholder="name" id="pname"><br>
+   <input type="text" placeholder="id" id="pid"><br>
+   <input type="button" value="login" id="bt1"><br>
+<script src="../js/jquery-3.0.0.min.js"></script>
+<script>
+    $(function(){
+        $("#bt1").click(function(){
+            $.post("/passenger/login",{pid:$("#pid").val(),pname:$("#pname").val()},function(data){
+                if(data){
+                    window.location.href="welcom.html";
+                }
+                else{
+                    alert("身份验证错误，请重新登陆");
+                    location.reload();
+                }
+            },"json")
+        })
+    })
+</script>
+</body>
+</html>

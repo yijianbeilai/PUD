@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.practisemybatis.mapper.TicketMapper">
+    <resultMap id="ticketMap" type="com.hz.practisemybatis.domain.Ticket" autoMapping="true">
+        <collection property="passenger" column="pid" ofType="com.hz.practisemybatis.domain.Passenger" autoMapping="true">
+
+        </collection>
+        <collection property="car" column="cid" ofType="com.hz.practisemybatis.domain.Car" autoMapping="true">
+            <association property="driver" column="did" javaType="com.hz.practisemybatis.domain.Driver" autoMapping="true"></association>
+        </collection>
+    </resultMap>
+    <insert id="saveTicket" >
+        insert into ticket(tid,pid,cid,tvalue,station,destination,startTime,endTime)
+        values(#{tid},#{passenger.pid},#{car.cid},#{tvalue},#{station},#{destination},#{startTime},#{endTime})
+    </insert>
+    <select id="getTicket" resultMap="ticketMap">
+        select t.tid,t.tvalue,p.pname,c.cid,d.dname from passenger p
+        left outer join ticket t on t.pid = p.pid
+        left outer join car c on c.cid = t.cid
+        left outer join driver d on d.did = c.did
+        where t.tid = #{tid}
+    </select>
+</mapper>

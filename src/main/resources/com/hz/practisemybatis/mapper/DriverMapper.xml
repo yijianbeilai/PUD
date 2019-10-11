@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.practisemybatis.mapper.DriverMapper">
+    <insert id="saveDriver">
+        insert into driver(did,dname) value(#{did},#{dname})
+    </insert>
+    <select id="getDriverByDname" resultType="com.hz.practisemybatis.domain.Driver">
+        select d.* from driver d where d.dname = #{dname}
+    </select>
+    <select id="getDriverByDid" resultType="com.hz.practisemybatis.domain.Driver">
+        select d.* from driver d where d.did = #{did}
+    </select>
+</mapper>

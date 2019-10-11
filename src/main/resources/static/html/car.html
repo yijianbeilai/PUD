@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <input placeholder="cid" type="text" class="cid"><br>
+    <input placeholder="did" type="text" class="did"><br>
+    <input type="button" value="submit" class="bt1"><br>
+</body>
+<script src="../js/jquery-3.0.0.min.js"></script>
+<script>
+    $(function(){
+        $(".bt1").click(function(){
+            $.post("/car/getCar",{cid:$(".cid").val(),did:$(".did").val()},function(data){
+                location.reload();
+            },"json")
+        })
+    })
+</script>
+</html>

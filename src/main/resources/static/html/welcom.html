@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>welcom --- <span id="getname"></span></p>
+<script src="../js/jquery-3.0.0.min.js"></script>
+<script >
+    $(function(){
+        $.post("/passenger/welcom",function(data){
+            $("#getname").text(data.pname);
+        },"json")
+    })
+</script>
+</body>
+</html>

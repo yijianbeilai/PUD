@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.practisemybatis.mapper.CarMapper">
+    <resultMap id="carMap" type="com.hz.practisemybatis.domain.Car">
+        <id property="cid" column="cid"></id>
+        <association property="driver" column="did" autoMapping="true" javaType="com.hz.practisemybatis.domain.Driver">
+            <!--<id column="did" property="did"></id>-->
+        </association>
+    </resultMap>
+    <insert id="saveCar">
+        insert into car(cid,did) values(#{cid},#{driver.did})
+    </insert>
+    <select id="getCarAndDriver" resultMap="carMap">
+        select d.dname,c.cid,d.did from car c
+        left outer join driver d on c.did = d.did
+        where c.cid = #{cid}
+    </select>
+</mapper>
