@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 import javax.annotation.Resources;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -81,7 +82,7 @@ public class TestP {
         ticketService.saveTicketExceptPassenger(ticket);
     }
     @Test
-    public void addTicketList(){
+    public void addTicketList() throws ParseException {
         List<Ticket> list=new ArrayList();
         Car car=new Car();
         car.setCid("50100");
@@ -96,6 +97,8 @@ public class TestP {
             ticket.setDestination("广州");
             ticket.setStation("青海");
             Date date=new Date();
+            SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            date=sdf.parse("2019-11-9 00:00:00");
             Timestamp ts=new Timestamp(date.getTime());
             ticket.setStartTime(ts);
             ts=new Timestamp(ts.getTime()+10*60*60*1000);
@@ -128,7 +131,7 @@ public class TestP {
     public void saveDriver(){
         Driver driver=new Driver();
         driver.setDname("zhonger");
-        driver.setDid("90004");
+        driver.setDid("00010006");
         driverService.saveDriver(driver);
     }
     @Test

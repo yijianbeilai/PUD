@@ -21,4 +21,9 @@ public class CarServiceImpl implements CarService {
     public Car getCarAndDriver(Car car) {
         return carMapper.getCarAndDriver(car);
     }
+
+    @Override
+    public boolean saveCarExceptDid(Car car) {
+        return carMapper.saveCarExceptDid(car);
+    }
 }

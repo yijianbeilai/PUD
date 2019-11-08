@@ -9,5 +9,6 @@ import org.springframework.stereotype.Component;
 public interface CarMapper {
     boolean saveCar(Car car);
     Car getCarAndDriver(Car car);
+    boolean saveCarExceptDid(Car car);
 }
 
