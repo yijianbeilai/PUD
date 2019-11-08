@@ -21,6 +21,7 @@
         values(#{tid},#{car.cid},#{tvalue},#{station},#{destination},#{startTime},#{endTime})
     </insert>
 
+    <!--foreach 插入多条数据-->
     <insert id="addTicketList">
         insert into ticket(tid,cid,tvalue,station,destination,startTime,endTime)
         values
@@ -38,6 +39,10 @@
     <update id="updateTicketPid">
         update ticket set pid = #{passenger.pid} where tid = #{tid}
     </update>
+    <!--查询获取到的是一个笛卡尔积的结果
+     所以对于查询多个表的信息时，得到数据总个数会是各个表中数据个数相乘的结果
+    在涉及到多个表的查询中要加入限制条件 连接条件
+    -->
     <select id="getTicketsByStation" resultMap="ticketMap">
         select t.* from ticket t where t.station = #{station} and t.destination = #{destination}
         <if test="startTime != null ">
@@ -49,9 +54,19 @@
 
         order by t.tid limit 0,1
     </select>
+
+    <!--limit后有两个参数，limit m,n  从结果的第m条数据开始到m+n条数据结束
+    m是偏移量
+    n是查询个数
+    可以省略第一个参数，默认为0
+    -->
     <update id="updatePid">
         update ticket set pid = #{passenger.pid} where station=#{station} and destination = #{destination}
         and pid is NULL limit 1
+    </update>
+
+    <update id="updatePidNull">
+        update ticket set pid =NULL where tid = #{tid}
     </update>
 
 </mapper>

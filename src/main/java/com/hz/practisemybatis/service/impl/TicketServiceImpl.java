@@ -48,4 +48,9 @@ public class TicketServiceImpl implements TicketService {
         return ticketMapper.updatePid(ticket);
     }
 
+    @Override
+    public boolean updatePidNull(Ticket ticket) {
+        return ticketMapper.updatePidNull(ticket);
+    }
+
 }

@@ -144,6 +144,12 @@ public class TestP {
             System.out.println(t.getCar().getCid()+t.getTid());
         }
     }
+    @Test
+    public void setNull(){
+        Ticket ticket = new Ticket();
+        ticket.setTid("10100");
+        ticketService.updatePidNull(ticket);
+    }
 
     @Test
     public void getTicketFirst(){

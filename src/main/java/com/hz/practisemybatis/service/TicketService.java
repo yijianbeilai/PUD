@@ -12,4 +12,5 @@ public interface TicketService {
     List<Ticket> getTicketsByStation(Ticket ticket);
     Ticket getTicketFirst(Ticket ticket);
     boolean updatePid(Ticket ticket);
+    boolean updatePidNull(Ticket ticket);
 }
