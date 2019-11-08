@@ -13,4 +13,6 @@ public interface TicketService {
     Ticket getTicketFirst(Ticket ticket);
     boolean updatePid(Ticket ticket);
     boolean updatePidNull(Ticket ticket);
+    List<String> getStation();
+    List<String> getDestinationByStation(Ticket ticket);
 }

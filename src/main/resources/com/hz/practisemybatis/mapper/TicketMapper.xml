@@ -69,4 +69,11 @@
         update ticket set pid =NULL where tid = #{tid}
     </update>
 
+    <select id="getStation" resultType="String">
+        select distinct station from ticket;
+    </select>
+
+    <select id="getDestinationByStation" resultType="String">
+        select distinct destination from ticket where station = #{station}
+    </select>
 </mapper>

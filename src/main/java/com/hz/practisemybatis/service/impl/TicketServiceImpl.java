@@ -53,4 +53,11 @@ public class TicketServiceImpl implements TicketService {
         return ticketMapper.updatePidNull(ticket);
     }
 
+    @Override
+    public List<String> getStation() {
+        return ticketMapper.getStation();
+    }
+    public List<String> getDestinationByStation(Ticket ticket){
+        return ticketMapper.getDestinationByStation(ticket);
+    }
 }

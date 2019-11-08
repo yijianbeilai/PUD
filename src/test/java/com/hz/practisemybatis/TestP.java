@@ -11,6 +11,7 @@ import com.hz.practisemybatis.service.TicketService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
@@ -25,6 +26,8 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TestP {
+    @Resource
+    private RedisTemplate redisTemplate;
     @Resource
     private PassengerService passengerService;
     @Resource
@@ -173,5 +176,34 @@ public class TestP {
     }
     public void putMsg(String str){
         System.out.println(str);
+    }
+
+    @Test
+    public void getStation(){
+        List<String> list=ticketService.getStation();
+        for(String tmp:list){
+            putMsg(tmp);
+        }
+    }
+    @Test
+    public void getDestination(){
+        Ticket ticket = new Ticket();
+        List<String> list=ticketService.getStation();
+        for(String temp:list){
+            ticket.setStation(temp);
+            System.out.print(temp+":");
+            List<String> li=ticketService.getDestinationByStation(ticket);
+            for(String tmp:li){
+                System.out.print(tmp+" ");
+            }
+            System.out.println();
+            redisTemplate.opsForValue().set(temp,li);
+            redisTemplate.opsForValue().get(temp);
+        }
+    }
+    @Test
+    public void getJIo(){
+        String str=(String)redisTemplate.opsForValue().get("qwe");
+        putMsg(str);
     }
 }
