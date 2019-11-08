@@ -17,7 +17,9 @@ import javax.annotation.Resource;
 import javax.annotation.Resources;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -61,21 +63,95 @@ public class TestP {
         ticketService.saveTicket(ticket);
     }
     @Test
+    public void  saveTicketExceptPassenger(){
+        Car car=new Car();
+        car.setCid("50003");
+        car=carService.getCarAndDriver(car);
+        Ticket ticket=new Ticket();
+        ticket.setCar(car);
+        ticket.setTid("11113");
+        ticket.setTvalue(20);
+        ticket.setDestination("杭州");
+        ticket.setStation("开封");
+        Date date=new Date();
+        Timestamp ts=new Timestamp(date.getTime());
+        ticket.setStartTime(ts);
+        ts=new Timestamp(ts.getTime()+10*60*60*1000);
+        ticket.setEndTime(ts);
+        ticketService.saveTicketExceptPassenger(ticket);
+    }
+    @Test
+    public void addTicketList(){
+        List<Ticket> list=new ArrayList();
+        Car car=new Car();
+        car.setCid("50100");
+        car=carService.getCarAndDriver(car);
+        int num=10100;
+        for(int i=0;i<20;i++){
+            Ticket ticket=new Ticket();
+            ticket.setCar(car);
+            ticket.setTid(num+"");
+            num++;
+            ticket.setTvalue(20);
+            ticket.setDestination("广州");
+            ticket.setStation("青海");
+            Date date=new Date();
+            Timestamp ts=new Timestamp(date.getTime());
+            ticket.setStartTime(ts);
+            ts=new Timestamp(ts.getTime()+10*60*60*1000);
+            ticket.setEndTime(ts);
+            list.add(ticket);
+        }
+        ticketService.addTicketList(list);
+    }
+    @Test
+    public void updatePid(){
+        Ticket ticket=new Ticket();
+        Passenger passenger=new Passenger();
+        passenger.setPid("11111");
+        ticket.setDestination("广州");
+        ticket.setStation("青海");
+        ticket.setPassenger(passenger);
+        ticketService.updatePid(ticket);
+    }
+    @Test
     public void saveCar(){
         Driver driver=new Driver();
-        driver.setDid("90002");
+        driver.setDid("90003");
         driverService.getDriverByDid(driver);
         Car car=new Car();
-        car.setCid("50002");
+        car.setCid("50003");
         car.setDriver(driver);
         carService.saveCar(car);
     }
     @Test
     public void saveDriver(){
         Driver driver=new Driver();
-        driver.setDname("daixiahu");
-        driver.setDid("90002");
+        driver.setDname("zhonger");
+        driver.setDid("90004");
         driverService.saveDriver(driver);
+    }
+    @Test
+    public void getTickets(){
+        Ticket ticket =new Ticket();
+        ticket.setDestination("广州");
+        ticket.setStation("青海");
+        Date date=new Date();
+        Timestamp ts=new Timestamp(date.getTime());
+        ticket.setStartTime(ts);
+        List<Ticket> list= ticketService.getTicketsByStation(ticket);
+        for(Ticket t:list){
+            System.out.println(t.getCar().getCid()+t.getTid());
+        }
+    }
+
+    @Test
+    public void getTicketFirst(){
+        Ticket ticket =new Ticket();
+        ticket.setDestination("广州");
+        ticket.setStation("青海");
+        ticket=ticketService.getTicketFirst(ticket);
+        System.out.println(ticket.getCar().getDriver().getDname()+" "+ticket.getTid());
     }
     @Test
     public void savePassenger(){

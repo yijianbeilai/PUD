@@ -8,12 +8,25 @@
 
         </collection>
         <collection property="car" column="cid" ofType="com.hz.practisemybatis.domain.Car" autoMapping="true">
-            <association property="driver" column="did" javaType="com.hz.practisemybatis.domain.Driver" autoMapping="true"></association>
+            <collection property="driver" column="did" ofType="com.hz.practisemybatis.domain.Driver" autoMapping="true"></collection>
         </collection>
     </resultMap>
     <insert id="saveTicket" >
         insert into ticket(tid,pid,cid,tvalue,station,destination,startTime,endTime)
         values(#{tid},#{passenger.pid},#{car.cid},#{tvalue},#{station},#{destination},#{startTime},#{endTime})
+    </insert>
+
+    <insert id="saveTicketExceptPassenger">
+        insert into ticket(tid,cid,tvalue,station,destination,startTime,endTime)
+        values(#{tid},#{car.cid},#{tvalue},#{station},#{destination},#{startTime},#{endTime})
+    </insert>
+
+    <insert id="addTicketList">
+        insert into ticket(tid,cid,tvalue,station,destination,startTime,endTime)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.tid},#{item.car.cid},#{item.tvalue},#{item.station},#{item.destination},#{item.startTime},#{item.endTime})
+        </foreach>
     </insert>
     <select id="getTicket" resultMap="ticketMap">
         select t.tid,t.tvalue,p.pname,c.cid,d.dname from passenger p
@@ -22,4 +35,23 @@
         left outer join driver d on d.did = c.did
         where t.tid = #{tid}
     </select>
+    <update id="updateTicketPid">
+        update ticket set pid = #{passenger.pid} where tid = #{tid}
+    </update>
+    <select id="getTicketsByStation" resultMap="ticketMap">
+        select t.* from ticket t where t.station = #{station} and t.destination = #{destination}
+        <if test="startTime != null ">
+            and t.startTime &gt; #{startTime}
+        </if>
+    </select>
+    <select id="getTicketFirst" resultMap="ticketMap">
+        select t.* from ticket t where t.station = #{station} and t.destination = #{destination}
+
+        order by t.tid limit 0,1
+    </select>
+    <update id="updatePid">
+        update ticket set pid = #{passenger.pid} where station=#{station} and destination = #{destination}
+        and pid is NULL limit 1
+    </update>
+
 </mapper>
